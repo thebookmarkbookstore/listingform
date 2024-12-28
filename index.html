@@ -31,6 +31,9 @@
       .form-row-item input {
         width: 40px;
       }
+      .form-row-item:last-child {
+        margin-right: 0;
+      }
       .form-label {
         margin-right: 10px;
         font-weight: bold;
@@ -128,11 +131,11 @@
         <div class="form-row">
           <div class="form-row-item">
             <label class="form-label" for="date">DATE</label>
-            <input type="date" id="date" class="form-input" />
+            <input type="date" id="date" class="form-input" tabindex="-1" />
           </div>
           <div class="form-row-item">
             <label class="form-label" for="price">PRICE $</label>
-            <input type="number" id="price" class="form-input form-clear" />
+            <input id="price" class="form-input form-clear" />
           </div>
         </div>
       </div>
