@@ -155,6 +155,7 @@
       window.onafterprint = () => {
         const inputs = document.querySelectorAll(".form-clear");
         [...inputs].forEach((input) => (input.value = ""));
+        element.getElementsByClassName("item-str")[0].innerText = "";
       };
     </script>
   </body>
