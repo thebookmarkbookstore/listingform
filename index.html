@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookmark labels</title>
+    <style>
+      @page {
+        size: portrait;
+      }
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .form-container {
+        border: 1px solid #000;
+        padding: 20px;
+        position: relative;
+      }
+      .form-row {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 20px;
+        align-items: center;
+      }
+      .form-row-item {
+        flex: 1;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+      }
+      .form-row-item input {
+        width: 40px;
+      }
+      .form-label {
+        margin-right: 10px;
+        font-weight: bold;
+      }
+      .form-input {
+        font-family: monospace;
+        flex: 2;
+        border: none;
+        border-bottom: 1px solid #000;
+        padding: 15px;
+        font-size: 14px;
+      }
+      .form-content {
+        margin-left: 80px;
+      }
+
+      .vertical-text {
+        display: inline-block;
+        transform: rotate(-90deg);
+        transform-origin: center;
+        font-weight: bold;
+        margin-right: 10px;
+        top: 50%;
+        left: 0px;
+        position: absolute;
+        white-space: nowrap;
+      }
+      .item-str {
+        width: 115px;
+        height: 40px;
+        font-size: 50px;
+        position: absolute;
+        left: -42px;
+        top: 115px;
+      }
+      .item-number-container {
+        display: flex;
+        align-items: center;
+      }
+      .print-button {
+        margin-top: 20px;
+        font-size: 50px;
+        padding: 20px;
+      }
+
+      @media print {
+        header,
+        footer,
+        .print-button {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <div class="vertical-text item-str form-input"></div>
+      <div class="form-content">
+        <div class="form-row">
+          <label class="form-label" for="title">TITLE</label>
+          <input type="text" id="title" class="form-input" />
+        </div>
+        <div class="form-row">
+          <div class="form-row-item">
+            <label class="form-label" for="aisle">AISLE</label>
+            <input type="text" id="aisle" class="form-input" />
+          </div>
+
+          <div class="form-row-item">
+            <label class="form-label" for="bay">BAY</label>
+            <input type="text" id="bay" class="form-input" />
+          </div>
+
+          <div class="form-row-item">
+            <label class="form-label" for="shelf">SHELF</label>
+            <input type="text" id="shelf" class="form-input" />
+          </div>
+          <div class="form-row-item">
+            <label class="form-label" for="item">ITEM #</label>
+            <input type="text" id="item" class="form-input item-num" />
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="listedBy">LISTED BY</label>
+          <input type="text" id="listedBy" class="form-input" />
+        </div>
+        <div class="form-row">
+          <div class="form-row-item">
+            <label class="form-label" for="date">DATE</label>
+            <input type="date" id="date" class="form-input" />
+          </div>
+          <div class="form-row-item">
+            <label class="form-label" for="price">PRICE $</label>
+            <input type="number" id="price" class="form-input" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="print-button" onclick="window.print()">Print</button>
+    <script>
+      const containers = document.getElementsByClassName("form-container");
+      [...containers].forEach((element) => {
+        const itemNum = element.getElementsByClassName("item-num");
+
+        itemNum[0].addEventListener("input", function (event) {
+          const itemStr = event.target.value;
+          console.log(element.getElementsByClassName("item-str")[0]);
+          element.getElementsByClassName("item-str")[0].innerText = itemStr;
+        });
+      });
+    </script>
+  </body>
+</html>
