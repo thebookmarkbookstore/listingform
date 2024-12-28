@@ -19,7 +19,7 @@
       .form-row {
         display: flex;
         flex-direction: row;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         align-items: center;
       }
       .form-row-item {
@@ -48,6 +48,9 @@
       }
 
       .vertical-text {
+        margin-bottom: 20px;
+        padding: 15px;
+
         border-bottom: 1px solid #000;
         display: inline-block;
         transform: rotate(-90deg);
@@ -65,7 +68,7 @@
         font-size: 50px;
         position: absolute;
         left: -42px;
-        top: 115px;
+        top: 100px;
       }
       .item-number-container {
         display: flex;
@@ -132,6 +135,8 @@
     </div>
     <button class="print-button" onclick="window.print()">Print</button>
     <script>
+      document.getElementById("date").valueAsDate = new Date();
+
       const containers = document.getElementsByClassName("form-container");
       [...containers].forEach((element) => {
         const itemNum = element.getElementsByClassName("item-num");
