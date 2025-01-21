@@ -170,7 +170,7 @@
       };
 
       window.onafterprint = () => {
-        addRemoveAt90();
+        addRemoveAt90(false);
 
         const inputs = document.querySelectorAll(".form-clear");
         [...inputs].forEach((input) => (input.value = ""));
@@ -178,7 +178,7 @@
         const itemNum = document.getElementsByClassName("item-num");
 
         // if item num is a number, increase by 1
-        if (!isNaN(itemNum[0].value)) {
+        if (!isNaN(itemNum[0].value || undefined)) {
           itemNum[0].value = parseInt(itemNum[0].value) + 1;
           document.getElementsByClassName("item-str")[0].innerText =
             itemNum[0].value;
