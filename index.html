@@ -124,11 +124,7 @@
           </div>
           <div class="form-row-item">
             <label class="form-label" for="item">ITEM #</label>
-            <input
-              type="text"
-              id="item"
-              class="form-input item-num"
-            />
+            <input type="text" id="item" class="form-input item-num" />
           </div>
         </div>
         <div class="form-row">
@@ -179,12 +175,12 @@
         const inputs = document.querySelectorAll(".form-clear");
         [...inputs].forEach((input) => (input.value = ""));
 
-        const itemNum = element.getElementsByClassName("item-num");
+        const itemNum = document.getElementsByClassName("item-num");
 
         // if item num is a number, increase by 1
         if (!isNaN(itemNum[0].value)) {
           itemNum[0].value = parseInt(itemNum[0].value) + 1;
-          element.getElementsByClassName("item-str")[0].innerText =
+          document.getElementsByClassName("item-str")[0].innerText =
             itemNum[0].value;
         }
       };
