@@ -178,7 +178,15 @@
 
         const inputs = document.querySelectorAll(".form-clear");
         [...inputs].forEach((input) => (input.value = ""));
-        element.getElementsByClassName("item-str")[0].innerText = "";
+
+        const itemNum = element.getElementsByClassName("item-num");
+
+        // if item num is a number, increase by 1
+        if (!isNaN(itemNum[0].value)) {
+          itemNum[0].value = parseInt(itemNum[0].value) + 1;
+          element.getElementsByClassName("item-str")[0].innerText =
+            itemNum[0].value;
+        }
       };
     </script>
   </body>
