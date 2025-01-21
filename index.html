@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bookmark labels</title>
     <style>
-      @page {
-        size: portrait;
-      }
       body {
         font-family: Arial, sans-serif;
       }
@@ -89,6 +86,16 @@
         .print-button {
           display: none;
         }
+
+        .print-90 .form-container,
+        .print-90,
+        .form-input {
+          padding: 7px;
+          font-size: 12px;
+        }
+        .print-90 .vertical-text {
+          top: 50px;
+        }
       }
     </style>
   </head>
@@ -141,6 +148,8 @@
       </div>
     </div>
     <button class="print-button" onclick="window.print()">Print</button>
+
+    <button class="print-button" onclick="printAt90()">Print at 90•</button>
     <script>
       document.getElementById("date").valueAsDate = new Date();
 
@@ -155,7 +164,18 @@
         });
       });
 
+      const printAt90 = () => {
+        addRemoveAt90(true);
+        window.print();
+      };
+
+      const addRemoveAt90 = (add) => {
+        document.body.classList.toggle("print-90", add);
+      };
+
       window.onafterprint = () => {
+        addRemoveAt90();
+
         const inputs = document.querySelectorAll(".form-clear");
         [...inputs].forEach((input) => (input.value = ""));
         element.getElementsByClassName("item-str")[0].innerText = "";
