@@ -7,18 +7,45 @@
     <style>
       body {
         font-family: Arial, sans-serif;
+        font-size: 22px;
+        margin: 20px;
+        padding: 0;
       }
+
       .form-container {
-        border: 1px solid #000;
-        padding: 20px;
-        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
       }
+
+      .vertical-text {
+        display: none;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        text-align: center;
+        font-weight: bold;
+        font-size: 50px;
+        line-height: 50px;
+        padding-right: 10px;
+      }
+
+      .form-content {
+        padding: 35px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: calc(100% - 50px);
+      }
+
       .form-row {
         display: flex;
         flex-direction: row;
-        margin-bottom: 10px;
         align-items: center;
       }
+
       .form-row-item {
         flex: 1;
         margin-right: 10px;
@@ -31,6 +58,7 @@
       .form-row-item:last-child {
         margin-right: 0;
       }
+
       .form-label {
         margin-right: 10px;
         font-weight: bold;
@@ -41,35 +69,17 @@
         border: none;
         border-bottom: 1px solid #000;
         padding: 15px;
-        font-size: 14px;
-      }
-      .form-content {
-        margin-left: 80px;
+        font-size: 18px;
       }
 
-      .vertical-text {
-        margin-bottom: 20px;
-        padding: 15px;
-
-        border-bottom: 1px solid #000;
-        display: inline-block;
-        transform: rotate(-90deg);
-        transform-origin: center;
-        font-weight: bold;
-        margin-right: 10px;
-        top: 50%;
-        left: 0px;
-        position: absolute;
+      #title-text {
+        display: none;
+        overflow: hidden;
         white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
-      .item-str {
-        width: 115px;
-        height: 40px;
-        font-size: 50px;
-        position: absolute;
-        left: -42px;
-        top: 100px;
-      }
+
       .item-number-container {
         display: flex;
         align-items: center;
@@ -81,30 +91,51 @@
       }
 
       @media print {
+        body {
+          font-size: 12px;
+          margin: 0px;
+        }
+
+        #title,
         header,
         footer,
         .print-button {
           display: none;
         }
 
-        .print-90 .form-container,
-        .print-90 .form-input {
-          padding: 7px;
-          font-size: 12px;
+        .form-container {
+          height: 100vh;
         }
-        .print-90 .vertical-text {
-          top: 52px;
+
+        #title-text,
+        .vertical-text {
+          display: block;
+        }
+
+        #title-text.smaller-font {
+          font-size: 16px;
+        }
+
+        .form-content {
+          border-left: 1px solid #000;
+        }
+
+        .form-input {
+          padding: 0;
+          border: none;
         }
       }
     </style>
   </head>
   <body>
     <div class="form-container">
-      <div class="vertical-text item-str"></div>
+      <div id="item-str" class="vertical-text"></div>
+
       <div class="form-content">
         <div class="form-row">
           <label class="form-label" for="title">TITLE</label>
           <input type="text" id="title" class="form-input form-clear" />
+          <div id="title-text" class="form-input"></div>
         </div>
         <div class="form-row">
           <div class="form-row-item">
@@ -123,7 +154,7 @@
           </div>
           <div class="form-row-item">
             <label class="form-label" for="item">ITEM #</label>
-            <input type="text" id="item" class="form-input item-num" />
+            <input type="text" id="item" class="form-input" />
           </div>
         </div>
         <div class="form-row">
@@ -143,44 +174,38 @@
       </div>
     </div>
     <button class="print-button" onclick="window.print()">Print</button>
-
-    <button class="print-button" onclick="printAt90()">Print at 90•</button>
     <script>
+      const titleText = document.getElementById("title-text");
+      const itemStr = document.getElementById("item-str");
+      const itemNum = document.getElementById("item");
+
+      document
+        .getElementById("title")
+        .addEventListener("input", function (event) {
+          titleText.innerText = event.target.value;
+          titleText.classList.toggle(
+            "smaller-font",
+            event.target.value.length >= 55
+          );
+        });
+
       document.getElementById("date").valueAsDate = new Date();
 
-      const containers = document.getElementsByClassName("form-container");
-      [...containers].forEach((element) => {
-        const itemNum = element.getElementsByClassName("item-num");
+      const container = document.getElementsByClassName("form-container")[0];
 
-        itemNum[0].addEventListener("input", function (event) {
-          const itemStr = event.target.value;
-          console.log(element.getElementsByClassName("item-str")[0]);
-          element.getElementsByClassName("item-str")[0].innerText = itemStr;
-        });
+      itemNum.addEventListener("input", function (event) {
+        const itemStr = event.target.value;
+        document.getElementById("item-str").innerText = itemStr;
       });
 
-      const printAt90 = () => {
-        addRemoveAt90(true);
-        window.print();
-      };
-
-      const addRemoveAt90 = (add) => {
-        document.body.classList.toggle("print-90", add);
-      };
-
       window.onafterprint = () => {
-        addRemoveAt90(false);
-
         const inputs = document.querySelectorAll(".form-clear");
         [...inputs].forEach((input) => (input.value = ""));
 
-        const itemNum = document.getElementsByClassName("item-num");
-
         // if item num is a number, increase by 1
-        if (!isNaN(itemNum[0].value || undefined)) {
-          itemNum[0].value = parseInt(itemNum[0].value) + 1;
-          document.getElementsByClassName("item-str")[0].innerText =
-            itemNum[0].value;
+        if (!isNaN(itemNum.value || undefined)) {
+          itemNum.value = parseInt(itemNum.value) + 1;
+          itemStr.innerText = itemNum.value;
         }
       };
     </script>
