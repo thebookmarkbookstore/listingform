@@ -186,9 +186,9 @@
         });
 
        
-     document.getElementById("date").valueAsDate = new Date().toLocaleString("en-US", {
+     document.getElementById("date").valueAsDate = new Date(new Date().toLocaleString("en-US", {
         timeZone: "America/Los_Angeles"
-      })
+      }))
 
       const container = document.getElementsByClassName("form-container")[0];
 
